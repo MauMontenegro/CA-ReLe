@@ -1,6 +1,7 @@
+import math
+
 import gym
 import matplotlib.pyplot as plt
-import math
 import numpy as np
 
 
@@ -12,7 +13,8 @@ def create_environment(config):
         config.env_actions_n = env.action_space.nvec[0] * env.action_space.nvec[1]
         # Getting Grid Size
         obs = env.reset()
-        h, w = obs[0].shape  # (rows x columns)
+        # (rows x columns)
+        h, w = obs[0].shape
         config.grid_h_size = h
         config.grid_w_size = w
 
@@ -25,7 +27,7 @@ def construct_state(observation):
     # Get Bulldozer Position
     state_pos_x, state_pos_y = observation[1][1]
     # Adding Position to Grid
-    state_grid[state_pos_x][state_pos_y] += 1
+    state_grid[state_pos_x][state_pos_y] += 10
     return state_grid
 
 

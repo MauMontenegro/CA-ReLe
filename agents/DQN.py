@@ -1,10 +1,11 @@
 # DQN Agent for Cellular Automata
 
+import importlib
+import random as rnd
+
+import numpy as np
 import torch
 import torch as T
-import numpy as np
-import random as rnd
-import importlib
 
 
 class DQN:
@@ -30,10 +31,14 @@ class DQN:
     def act(self, state, epsilon):
         if rnd.random() > epsilon:
             if self.env_type == "Bulldozer":
+                # Formatting state to have 1 channel
                 state = state.unsqueeze(0)
+                # Formatting state to have 1 element of batch
                 state = state.unsqueeze(1)
+                # For inference
                 with torch.no_grad():
                     q_value = self.current_model.forward(state.to(self.device))
+            # Getting the index of q_values that has max value
             action = T.argmax(q_value).item()
         else:
             action = rnd.randrange(self.action_space_num)

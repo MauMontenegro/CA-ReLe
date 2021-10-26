@@ -1,14 +1,16 @@
-import config
-import utils
-import sys
-import matplotlib.pyplot as plt
 import importlib
-import logger
-import torch as T
+import sys
+
+import matplotlib.pyplot as plt
 import numpy as np
+import torch as T
 from tqdm import tqdm
 
-# Paths to saved agents and nets
+import config
+import logger
+import utils
+
+# Path for Reinforcement Learning Agents and Neural Network Models
 sys.path.append('./agents')
 sys.path.append('./nets')
 
@@ -29,15 +31,15 @@ if __name__ == '__main__':
     chkpt_path = file_path + '/Check_points/' + config_file.net
     file = 'PER_DDQN_Dueling'
 
-    # Create Logger
+    # Create Logger to save results
     logger = logger.ExperimentLog(file_path, file)
 
-    # Save all rewards of Games
     Rewards = []
     Sample_efficiency = []
     Losses = []
     frames = []
 
+    # Play multiple fresh new games for statistics
     for game in range(1, config_file.total_games + 1):
         print("\n Playing Game: {}".format(game))
 
@@ -52,30 +54,32 @@ if __name__ == '__main__':
             config_file.total_episodes = config_file.total_episodes - load_episode
             print("\nLoaded Parameters: {ep} Remaining Episodes ".format(ep=config_file.total_episodes))
 
-        # Initialize Results, flags and state
-        all_rewards = []
-        all_losses = []
-        env_interactions = []
-        interaction = 0
-        update_flag = 0
-        save_flag = 0
+        # Initialize Game Variables
+        all_rewards = []  # Rewards for each episode
+        all_losses = []  # Loss of each episode
+        env_interactions = []  # Counts actions made in env for each episode (Accumulates over episodes)
+        # Reset Flag Variables
+        interaction = 0  # Reset accumulated env interactions
+        update_flag = 0  # Reset sync between target and online net models
+        save_flag = 0  # Reset save net model flag
 
+        # Plays an entire episode until it ends or max frame config flag is reached
         for episode in tqdm(range(1, config_file.total_episodes + 1)):
 
             print("\nPlaying Episode: {}".format(episode))
 
-            # Saving Model
+            # Saving Net Model Parameters each N-steps
             if config_file.save_model and ((episode % config_file.save_model_n) == 0):
                 agent.save(episode + load_episode, chkpt_path)
 
-            # Reset Variables
-            state = env.reset()
-            done = False
+            # Reset Episode Variables
+            state = env.reset()  # Send Env state to initial state
+            done = False  # Reset done flag for env
             loss = 0
             episode_reward = 0
             frame = 0
 
-            # Constructing State
+            # Create a modified copy of env state
             state_c = np.float32(utils.construct_state(state))
 
             # Play Episode Until Done or reach Max Frames Allowed
@@ -97,6 +101,7 @@ if __name__ == '__main__':
                 # Update Variables
                 interaction += 1
                 frame += 1
+                # Formatting next_state
                 next_state_c = np.float32(utils.construct_state(next_state))
                 episode_reward += reward  # Accumulate reward
 
@@ -105,6 +110,7 @@ if __name__ == '__main__':
 
                 # Update State
                 state = next_state
+                state_c = next_state_c
 
                 # Wait to learn until buffer have at least batch size elements
                 if agent.buffer.size() > config_file.batch_size:
@@ -123,7 +129,7 @@ if __name__ == '__main__':
             # If episode ends due to failure or success, reset flags and store rewards and interactions.
             all_rewards.append(episode_reward)
             env_interactions.append(interaction)
-
+            all_losses.append(loss)
     # Game Statistics
 
     logger.log_save(all_rewards, env_interactions)

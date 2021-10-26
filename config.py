@@ -33,13 +33,13 @@ parser.add_argument("-optimizer_name", default="Adam")  # Optimizer
 
 # Training Experiment Parameters
 parser.add_argument("-total_games", type=int, default=1)  # Total numbers of Games
-parser.add_argument("-total_episodes", type=int, default=1000)  # Total Episodes in a Game
+parser.add_argument("-total_episodes", type=int, default=100)  # Total Episodes in a Game
 parser.add_argument("-max_frames", type=int, default=800)  # Max number of frames in Episode
 
 # Another Configuration (Logging, render, seed, etc)
 parser.add_argument("-seed", type=int, default=10)
 parser.add_argument("-save_model", type=bool, default=True)
-parser.add_argument("-load_model", type=bool, default=False)
+parser.add_argument("-load_model", type=bool, default=True)
 parser.add_argument("-save_model_n", type=int, default=20)  # Save model parameters every n steps in environment
 parser.add_argument("-save_render", type=bool, default=True)
 parser.add_argument("-logging", default="")
