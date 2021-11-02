@@ -5,6 +5,7 @@ Configuration File for:
         -Agent
         -Training Parameters
 """
+
 import argparse
 
 parser = argparse.ArgumentParser()
@@ -38,8 +39,9 @@ parser.add_argument("-max_frames", type=int, default=800)  # Max number of frame
 
 # Another Configuration (Logging, render, seed, etc)
 parser.add_argument("-seed", type=int, default=10)
-parser.add_argument("-save_model", type=bool, default=True)
-parser.add_argument("-load_model", type=bool, default=True)
+parser.add_argument("-channels", type=bool, default=True)
+parser.add_argument("-save_model", type=bool, default=False)
+parser.add_argument("-load_model", type=bool, default=False)
 parser.add_argument("-save_model_n", type=int, default=20)  # Save model parameters every n steps in environment
 parser.add_argument("-save_render", type=bool, default=True)
 parser.add_argument("-logging", default="")

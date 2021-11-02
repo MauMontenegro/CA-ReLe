@@ -26,16 +26,20 @@ class DQN:
         self.device = T.device("cuda" if T.cuda.is_available() else "cpu")
         self.current_model.to(self.device)
         self.target_model.to(self.device)
-        self.optimizer = T.optim.Adam(self.current_model.parameters())
+        self.optimizer = T.optim.Adam(self.current_model.parameters(), lr=config.learning_rate)
 
-    def act(self, state, epsilon):
+    def act(self, state, epsilon, channels):
         if rnd.random() > epsilon:
             if self.env_type == "Bulldozer":
-                # Formatting state to have 1 channel
-                state = state.unsqueeze(0)
-                # Formatting state to have 1 element of batch
-                state = state.unsqueeze(1)
-                # For inference
+                if channels:
+                    # Formatting state to have 1 element of batch
+                    state = state.unsqueeze(0)
+                else:
+                    # Formatting state to have 1 channel
+                    state = state.unsqueeze(0)
+                    # Formatting state to have 1 element of batch
+                    state = state.unsqueeze(1)
+                # For inference calculate actual q_value
                 with torch.no_grad():
                     q_value = self.current_model.forward(state.to(self.device))
             # Getting the index of q_values that has max value
@@ -61,11 +65,9 @@ class DQN:
         done = T.FloatTensor(done).to(self.device)
 
         # Calculate Q_Values (Prediction) with Online Network
-        state = state.unsqueeze(1)
         q_values = self.current_model(state)
 
         # Calculate q values of next state with online network (To evaluate greedy Policy)(arg max)
-        next_state = next_state.unsqueeze(1)
         next_q_values = self.current_model(next_state).detach()
 
         # Estimate value with target network (Evaluation)

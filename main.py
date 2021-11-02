@@ -2,7 +2,6 @@ import importlib
 import sys
 
 import matplotlib.pyplot as plt
-import numpy as np
 import torch as T
 from tqdm import tqdm
 
@@ -80,7 +79,7 @@ if __name__ == '__main__':
             frame = 0
 
             # Create a modified copy of env state
-            state_c = np.float32(utils.construct_state(state))
+            state_c = utils.construct_state(state, env, config_file)
 
             # Play Episode Until Done or reach Max Frames Allowed
             while not done:
@@ -93,7 +92,7 @@ if __name__ == '__main__':
                 epsilon = utils.epsilon_by_frame(config_file, episode)
 
                 # Getting Action
-                action_buffer = agent.act(T.FloatTensor(state_c), epsilon)  # To store in Buffer
+                action_buffer = agent.act(T.FloatTensor(state_c), epsilon, config_file.channels)  # To store in Buffer
                 action_env = utils.mapping_actions(action_buffer)  # To make a step
                 # Step in Environment
                 next_state, reward, done, _ = env.step(action_env)
@@ -102,7 +101,7 @@ if __name__ == '__main__':
                 interaction += 1
                 frame += 1
                 # Formatting next_state
-                next_state_c = np.float32(utils.construct_state(next_state))
+                next_state_c = utils.construct_state(next_state, env, config_file)
                 episode_reward += reward  # Accumulate reward
 
                 # Store transition in Buffer
