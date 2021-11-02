@@ -21,14 +21,62 @@ def create_environment(config):
     return env
 
 
-def construct_state(observation):
-    # Get Grid State
-    state_grid = observation[0].copy()  # A copy of the Grid to not modify original
-    # Get Bulldozer Position
-    state_pos_x, state_pos_y = observation[1][1]
-    # Adding Position to Grid
-    state_grid[state_pos_x][state_pos_y] += 10
-    return state_grid
+def construct_state(observation, env, config):
+    state_grid, context = observation
+    wind_params, (posRow, posCol), time = context
+    fire, tree, empty, burned = env._fire, env._tree, env._empty, env._burned
+
+    if config.channels:
+        return imageGridC(state_grid, fire, tree, empty, burned, posRow, posCol, config)
+
+    return imageGrid(state_grid, fire, tree, empty, burned, posRow, posCol, config)
+
+
+TREE, EMPTY, FIRE, BURNED, AGENT = 100, 0, 200, 50, 255
+
+
+def imageGrid(grid: np.array,
+              fire, tree, empty, burned,
+              agentRow, agentCol, config) -> np.array:
+    # Construct the grid in grayscale
+    img = np.zeros((config.grid_h_size, config.grid_w_size), dtype=np.uint8)
+
+    for row in range(0, config.grid_h_size - 1):
+        for col in range(1, config.grid_w_size):
+            currentCell, val = grid[row, col], 0
+            if currentCell == fire:
+                val = FIRE
+            elif currentCell == tree:
+                val = TREE
+            elif currentCell == burned:
+                val = BURNED
+            else:
+                val = EMPTY
+            if (row == agentRow) and (col == agentCol):
+                val = AGENT
+            img[row, col] = val
+
+    return img
+
+
+def imageGridC(grid: np.array,
+               fire, tree, empty, burned,
+               agentRow, agentCol, config) -> np.array:
+    # Construct the grid in grayscale
+    img = np.zeros((4, config.grid_h_size, config.grid_w_size), dtype=np.bool_)
+
+    for row in range(0, config.grid_h_size - 1):
+        for col in range(1, config.grid_w_size):
+            currentCell = grid[row, col]
+            if currentCell == fire:
+                img[0, row, col] = 1
+            elif currentCell == tree:
+                img[1, row, col] = 1
+            elif currentCell == burned:
+                img[2, row, col] = 1
+            if (row == agentRow) and (col == agentCol):
+                img[3, row, col] = 1
+    return img
 
 
 # def save_frames_as_gif(frames, path='Recordings/', filename='gym_animation.gif'):

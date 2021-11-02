@@ -9,8 +9,13 @@ class Simple_CNN(nn.Module):
         # Available Actions
         self.output = config.env_actions_n
 
+        if config.channels:
+            channels = 4
+        else:
+            channels = 1
+
         # Create Model
-        self.conv1 = nn.Conv2d(in_channels=1, out_channels=32, kernel_size=8, stride=4)
+        self.conv1 = nn.Conv2d(channels, out_channels=32, kernel_size=8, stride=4)
         self.bn1 = nn.BatchNorm2d(32)
         convh, convw = self.conv2D_size_calc(config.grid_h_size, config.grid_w_size, kernel=8, stride=4, padding=0)
 
@@ -79,9 +84,13 @@ class Dueling_CNN(nn.Module):
 
         # Available Actions
         self.output = config.env_actions_n
+        if config.channels:
+            channels = 4
+        else:
+            channels = 1
 
         # Common CNN Layers
-        self.conv1 = nn.Conv2d(in_channels=1, out_channels=32, kernel_size=8, stride=4)
+        self.conv1 = nn.Conv2d(channels, out_channels=32, kernel_size=8, stride=4)
         self.bn1 = nn.BatchNorm2d(32)
         convh, convw = self.conv2D_size_calc(config.grid_h_size, config.grid_w_size, kernel=8, stride=4, padding=0)
 
