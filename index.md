@@ -3,15 +3,16 @@
   <head>
     <meta charset="UTF-8">
     <!-- MathJax -->
-    <script type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    </script>
+    <script type="text/javascript" id="MathJax-script" async
+  		src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+	</script>
   </head>
 
   <body>
  # CARL: Forest Fire with DQN
 
-[ToC]
+When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
+$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
 
 Este documento es un registro de avances y modificaciones respecto al proyecto CARL, el cuál consiste en utilizar técnicas de Reinforcement Learning (DQN, PPO, A2C) en la optimización de problemas relacionados con Automatas Celulares (CA). Actualmente se estudian dos ambientes principales: BullDozer y Helicoptero.
 
