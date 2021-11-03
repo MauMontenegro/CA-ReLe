@@ -49,7 +49,7 @@ A diferencia de la configuración que se usa normalmente al resolver juegos de A
 
 
 ### Double DQN (DDQN)
-
+This is A test
 
 ### Prioritized Experience Replay
 
