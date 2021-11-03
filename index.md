@@ -1,4 +1,15 @@
-# CARL: Forest Fire with DQN
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- MathJax -->
+    <script type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+  </head>
+
+  <body>
+ # CARL: Forest Fire with DQN
 
 [ToC]
 
@@ -44,3 +55,7 @@ A diferencia de la configuración que se usa normalmente al resolver juegos de A
 
 
 ### Dueling Q-Networks
+
+  </body>
+</html>
+
