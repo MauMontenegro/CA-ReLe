@@ -1,0 +1,37 @@
+env:
+  name: gym_cellular_automata:ForestFireBulldozer256x256-v2
+  name_: bulldozer
+  grid_h: 64
+  grid_w: 64
+  action_space: 18
+
+
+agent:
+  class: DQN
+  buffer_name: PERBuffer
+  buffer_size: 100000
+  channels: 4
+  mini_batch: 32
+  gamma: 0.99
+
+policy:
+  initial_epsilon: 0.99
+  final_epsilon: 0.01
+  decay_epsilon: 100
+  network:
+    class: Dueling_CNN
+    learning_rate: 0.00001
+    optimizer: Adam
+
+train:
+  algorithm: dqn_train
+  games: 1
+  episodes: 10000
+  frames: 600
+
+manager:
+  seed: 100
+  save_render: True
+  load_model: False
+  save_model: True
+  save_model_freq: 100
