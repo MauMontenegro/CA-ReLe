@@ -1,0 +1,40 @@
+# Environment Parameters
+env:
+  name: CartPole-v0
+  name_: CartPole-v0
+  action_space: 2
+  input_size: 4
+
+# Agent Parameters
+agent:
+  class: ppoAgent
+  memory: PPOMemory
+  trajectory: 20
+  batch_size: 5
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip: 0.2
+
+# Policy Parameters
+policy:
+  class: ppo_policy
+  nets:
+    ActorClass: ActorNetwork
+    CriticClass: CriticNetwork
+    alpha: 0.0003
+    optimizer: Adam
+
+# Manger Parameters
+manager:
+  save_render: True
+  load_model: False
+  save_model: True
+  save_model_freq: 50
+
+
+# Train Algorithm Parameters
+algorithm:
+  class: ppo_algorithm
+  games: 1
+  episodes: 300
+  epochs: 10
