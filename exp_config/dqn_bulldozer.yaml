@@ -24,7 +24,7 @@ policy:
     optimizer: Adam
 
 train:
-  algorithm: dqn_train
+  class: dqn_train
   games: 1
   episodes: 10000
   frames: 600

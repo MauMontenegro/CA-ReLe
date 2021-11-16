@@ -33,7 +33,7 @@ manager:
 
 
 # Train Algorithm Parameters
-algorithm:
+train:
   class: ppo_algorithm
   games: 1
   episodes: 300

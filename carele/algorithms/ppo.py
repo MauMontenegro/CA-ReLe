@@ -1,16 +1,17 @@
 import numpy as np
-from ppo.utilities.utils import plot_learning_curve
+
+from carele.utils.utils import plot_learning_curve
 
 
 def ppo_algorithm(env, agent, manager, config):
     env = env
     N = config['agent']['trajectory']  # Size of trajectory
     batch_size = config['agent']['batch_size']
-    n_epochs = config['algorithm']['epochs']
+    n_epochs = config['train']['epochs']
     alpha = config['policy']['nets']['alpha']
     agent = agent
 
-    n_games = config['algorithm']['episodes']
+    n_games = config['train']['episodes']
 
     figure_file = 'plots/cartpole.png'
 

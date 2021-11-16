@@ -1,14 +1,15 @@
 import numpy as np
-import ppo.models as models
-import ppo.storage as memory
 import torch as T
+
+import carele.buffers as memory
+import carele.models as models
 
 
 class ppoAgent:
     def __init__(self, config):
         self.gamma = config['agent']['gamma']
         self.policy_clip = config['agent']['clip']
-        self.n_epochs = config['algorithm']['epochs']
+        self.n_epochs = config['train']['epochs']
         self.gae_lambda = config['agent']['gae_lambda']
 
         self.Memory = getattr(memory, config['agent']['memory'])

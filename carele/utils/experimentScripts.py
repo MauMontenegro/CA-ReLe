@@ -27,7 +27,7 @@ def createAgent(config):
 
 def createAlgorithm(config):
     import carele.algorithms as algorithms
-    target_class = config['train']['algorithm']
+    target_class = config['train']['class']
     if hasattr(algorithms, target_class):
         trainfuncClass = getattr(algorithms, target_class)
     else:
