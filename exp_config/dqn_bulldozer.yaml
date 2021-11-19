@@ -26,8 +26,8 @@ policy:
 train:
   class: dqn_train
   games: 1
-  episodes: 10000
-  frames: 600
+  episodes: 10
+  frames: 100
 
 manager:
   seed: 100

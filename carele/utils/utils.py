@@ -12,6 +12,19 @@ def create_environment(env_name):
     return env
 
 
+def copyEnv(dict, env):
+    env.steps_elapsed = dict['steps_elapsed']
+    env.steps_beyond_done = dict['steps_beyond_done']
+    env.reward_accumulated = dict['reward_accumulated']
+    # env._resample_initial = dict['_resample_initial']
+    env.done = dict['done']
+    env.context = dict['context']
+    env.grid = dict['grid']
+    env._fire_seed = dict['_fire_seed']
+
+    return env
+
+
 def construct_state(observation, env, config):
     state_grid, context = observation
     wind_params, (posRow, posCol), time = context

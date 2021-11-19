@@ -1,9 +1,10 @@
-import matplotlib.pyplot as plt
 import torch as T
+from matplotlib import pyplot as plt
 from tqdm import tqdm
 
 from carele.utils.logger import ExperimentLog
 from carele.utils.utils import construct_state, epsilon_by_frame, mapping_actions, plot
+from imgs2gif import images_to_gif
 
 
 def dqn_train(env, agent, manager, config):
@@ -11,7 +12,7 @@ def dqn_train(env, agent, manager, config):
     Sample_efficiency = []
     Losses = []
     frames = []
-
+    gif_frames = []
     # Play multiple fresh new games for statistics
     for game in range(1, config['train']['games'] + 1):
         print("\n Playing Game: {}".format(game))
@@ -62,6 +63,7 @@ def dqn_train(env, agent, manager, config):
             while not done:
                 if config['manager']['save_render'] and (game == config['train']['games']) and (
                         episode == config['train']['episodes']):
+                    print("Rendering frame")
                     fig = env.render()
                     fig.savefig('Images/Emulation_{f}.png'.format(f=frame))
                     plt.close(fig)
@@ -108,6 +110,8 @@ def dqn_train(env, agent, manager, config):
             env_interactions.append(interaction)
             all_losses.append(loss)
 
+    print("...Saving Gif")
+    images_to_gif()
     # Game Statistics
     logger.log_save(all_rewards, env_interactions)
 

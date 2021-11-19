@@ -1,0 +1,29 @@
+env:
+  name: gym_cellular_automata:ForestFireBulldozer256x256-v2
+  name_: bulldozer
+  grid_h: 64
+  grid_w: 64
+  action_space: 18
+
+agent:
+  class: rolloutAgent
+  lookahead: 2
+
+
+heuristic:
+  class: Heuristic_m1_v1
+  vision: 1
+  neighborhood: moore
+
+train:
+  class: rollout_train
+  games: 1
+  episodes: 1
+  frames: 600
+
+manager:
+  seed: 100
+  save_render: True
+  load_model: False
+  save_model: True
+  save_model_freq: 100
