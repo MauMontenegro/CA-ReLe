@@ -36,4 +36,8 @@ if __name__ == '__main__':
     # Retrieve Experiment Configuration
     exp_config = getExpConfig(args.config)
     env, agent, manager, train = setupExperiment(args.alg, exp_config, cuda=args.cuda)
+    # env.reset()
+    # img = env.render()
+    # plt.show()
+
     train(env, agent, manager, exp_config)
